@@ -16,7 +16,6 @@ import Header from './Header';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import FeatureHomeDefault from './FeatureHomeDefault';
 
-
 const FeatureHome = () => {
   console.log("Rendering FeatureHome component");
   return (
