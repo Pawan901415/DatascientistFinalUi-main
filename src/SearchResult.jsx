@@ -38,10 +38,13 @@ export default function SearchResult(props) {
                                 className={`heart-icon ${isFavorite ? 'red' : ''}`}
                             />
                         </button>
+
                         {/* <a href={`/featurehome/ViewEntity/${temp[1].entityName}`} className="explore-btn">
                         Explore
                         </a> */}
-                        <Link to={`/featurehome/viewentity/${temp[1].entityName}`} className="explore-btn">
+                         
+                        <Link to={`/featurehome/ViewEntity/${temp[1].entityName}`} className="explore-btn">
+
                                         Explore
                         </Link>
                     </div>

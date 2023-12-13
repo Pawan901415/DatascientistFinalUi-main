@@ -3,10 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MyEntities from './MyEntities';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import PieChartComponent from './Components/PieChartComponent';
+
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 export default function UserFeatures() {
     const [features, setFeatures] = useState([]);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletedFeatureName, setDeletedFeatureName] = useState('');
 
     const storedUserObject = JSON.parse(sessionStorage.getItem('UserObj'));
     const username = storedUserObject.name;
@@ -21,12 +27,11 @@ export default function UserFeatures() {
             .catch(err => {
                 // Handle error
             });
-    
+
         return () => {
             // Cleanup, if needed
         };
     }, [username]);
-    
 
     const handleDeleteClick = (featureId, featureName) => {
         const shouldDelete = window.confirm(`Delete the feature "${featureName}"?`);
@@ -34,13 +39,9 @@ export default function UserFeatures() {
         if (shouldDelete) {
             axios.delete(`https://featuremarketplacewebapi.azurewebsites.net/api/Feature/DeleteFeature/${featureId}`)
                 .then(() => {
-                    // Remove the deleted feature from the state
+                    setDeletedFeatureName(featureName);
+                    setShowDeleteModal(true);
                     setFeatures(prevFeatures => prevFeatures.filter(feature => feature.id !== featureId));
-                    // window.location.reload();
-                    alert("Feature deleted successfully");
-                    Navigate('/featurehome/UserFeatures');
-
-                    
                 })
                 .catch(err => {
                     // Handle error
@@ -48,6 +49,11 @@ export default function UserFeatures() {
                 });
         }
     }
+
+    const handleCloseDeleteModal = () => {
+        setShowDeleteModal(false);
+        Navigate('/featurehome/UserFeatures');
+    };
 
     const maprows = features.map(p => (
         <tr key={p.id}>
@@ -57,8 +63,6 @@ export default function UserFeatures() {
             <td className="text-nowrap text-center ">{p.featureDataType}</td>
             <td className="text-nowrap text-center ">{p.createdAt}</td>
             <td className="text-nowrap text-center ">
-                {/* <Link className='btn btn-primary' to={`/featurehome/editfeature/${p.entityName}`}>Edit</Link> */}
-
                 <Link
                     className='btn btn-primary'
                     to={{
@@ -82,18 +86,31 @@ export default function UserFeatures() {
 
     return (
         <>
+            <MyEntities />
             <br />
-            {/* <div className='container'> */}
-                <MyEntities />
-                <br/>
+            <PieChartComponent></PieChartComponent>
+            <br />
 
-                <PieChartComponent></PieChartComponent>
-                <br></br>
+            <h2 className="text-left">My Features</h2>
 
-                <h2 className="text-left">My Features</h2>
-                <div className="table-container">
-                 <div className='table-responsive'>
-                  <table className='table table-striped table-bordered table-hover' style={{ border: "1px solid black" }}>
+            {/* React Bootstrap Modal for Delete Confirmation */}
+            <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Feature Deleted Successfully</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {`Feature "${deletedFeatureName}" has been deleted successfully.`}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleCloseDeleteModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <div className="table-container">
+                <div className='table-responsive'>
+                    <table className='table table-striped table-bordered table-hover' style={{ border: "1px solid black" }}>
                         <thead>
                             <tr>
                                 <th className="text-nowrap text-center ">Entity Name</th>
@@ -109,9 +126,8 @@ export default function UserFeatures() {
                             {maprows}
                         </tbody>
                     </table>
-                  </div>
                 </div>
-            {/* </div> */}
+            </div>
         </>
     );
 }

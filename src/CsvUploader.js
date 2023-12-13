@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SignalRService from "./SignalRService";
-// import { Link } from "react-router-dom";
 import "./Styles/CSVFileUploader.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, Button } from "react-bootstrap";
-//import img from "./Images/sample.PNG";
+import img from "./Images/sample1.PNG";
  
  
  
@@ -14,54 +13,43 @@ const CsvUploader = () => {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [uploadedData, setUploadedData] = useState([]);
-  //const [selectedEntity, setSelectedEntity] = useState(null);
-  // const [batchId, setBatchId] = useState(1);
+ 
+  // eslint-disable-next-line no-unused-vars
+  const [selectedEntity, setSelectedEntity ] = useState(null);
+  const [batchId] = useState(1);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  //const username = sessionStorage.getItem("UserObj").username;
+    // eslint-disable-next-line no-unused-vars
+const [errorDisplayTime, setErrorDisplayTime] = useState(false);
  
-  // const userObjString = sessionStorage.getItem("UserObj");
-
+ 
   const storedUserObject = JSON.parse(sessionStorage.getItem('UserObj'));
   const username = storedUserObject.name;
-
-  const url="https://csvbatchprocessing20231211145733.azurewebsites.net/CSV/upload"
  
-  useEffect(() => {
-   
-    const refreshTimer = setTimeout(() => {
-      window.location.reload(true);
-    }, 2 *60 * 1000);
  
-    return () => {
-      clearTimeout(refreshTimer);
-    };
-  }, []);
+  const url="https://csvbatchprocessing20231213121617.azurewebsites.net/CSV/upload"
  
   useEffect(() => {
     SignalRService.connection.on("ReceiveProgress", (receivedProgress) => {
       setProgress(parseInt(receivedProgress));
     });
- 
- 
-   
-   
     return () => {
       SignalRService.connection.off("ReceiveProgress");
     };
   }, []);
  
   const handleFileChange = (event) => {
-   
- const selectedFile = event.target.files[0];
- 
+    const selectedFile = event.target.files[0];
     if (selectedFile) {
       const fileSizeInMB = selectedFile.size / (1024 * 1024);
- 
       if (fileSizeInMB > 10) {
         setErrorMessage(`File size exceeds 10MB. Please select a file less than 10MB.`);
         event.target.value = null;
+ 
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
       } else {
         setFile([...(file || []), selectedFile]);
       }
@@ -69,25 +57,20 @@ const CsvUploader = () => {
     setFile([...(file || []), ...event.target.files]);
   };
  
-  const [showModalData, setShowModalData] = useState({ batchId: null, content: null }); // State to store data for modal display
+ 
+  const [showModalData, setShowModalData] = useState({ batchId: null, content: null });
  
   const handleUpload = async () => {
- 
     if (!username) {
       console.error("Username is null");
       return;
-    }
+     }
     setIsUploading(true);
     try {
-     
-      const timestamp = new Date();
-     
-     
-     
-      for (let i = 0; i < file.length; i++) {
+     const timestamp = new Date();
+     for (let i = 0; i < file.length; i++) {
         const formData = new FormData();
         formData.append("files", file[i]);
-        //SignalRService.connection.invoke("SendProgressToUser", UserName, progress);
         await new Promise((resolve) => setTimeout(resolve, 1000));
        
         const response = await axios.post(
@@ -97,19 +80,18 @@ const CsvUploader = () => {
             headers: {
               "Content-Type": "multipart/form-data",
               UserName: username,
-           
             },
           }
         );
        
         console.log(`File ${i + 1} uploaded successfully:`, response.data);
  
-       // const newBatchId = batchId + i;
+        const newBatchId = batchId + i;
  
         setUploadedData((prevData) => [
           ...prevData,
           {
-           //batchId: newBatchId,
+            batchId: newBatchId,
             timestamp,
             content: response.data
               .map(
@@ -120,23 +102,30 @@ const CsvUploader = () => {
           },
         ]);
       }
+      setFile(null);
+      setProgress(0);
       setErrorMessage(null);
       setIsUploading(false);
     } catch (error) {
       console.error("Error uploading files:", error);
       setErrorMessage("Missing data or error during upload");
       setIsUploading(false);
+ 
+      setErrorDisplayTime(true);
+ 
+      setTimeout(() => {
+        setErrorMessage(null);
+        setErrorDisplayTime(false);
+        setFile(null);
+      }, 5000);
     }
   };
  
   const handleViewClick = (entity) => {
-    //setSelectedEntity(entity);
+    setSelectedEntity(entity);
     setShowModal(true);
     setShowModalData(entity || { batchId: null, content: null });
     setFile(null);
- 
-   
-   
     console.log("Raw Content:", entity.content);
   };
  
@@ -146,21 +135,16 @@ const CsvUploader = () => {
  
   return (
     <>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/">
-            Feature Marketplace
-          </a>
-        </div>
-      </nav>
-      <br />
+    <br/>
+    <br/>
+    <br/>
       <div class="main" className="container">
         <div className="upload-section">
           <div className="grids">
             <h1>
               Upload your CSV files
-              {/* <img src={img} alt="My Image" style={{ marginLeft: '241px',marginBottom:'13px',border: '1px solid black', Align: 'right', width:"40%",height:"35%" }}/>
-               */}
+              { <img src={img} alt="uploading file icon" style={{ marginLeft: '241px',marginBottom:'13px',border: '1px solid black', Align: 'right', width:"40%",height:"35%" }}/>
+               }
             </h1>
             <div className="grid-group">
               <div className="file-upload-container">
@@ -172,6 +156,8 @@ const CsvUploader = () => {
                   multiple
                 />
                 <br />
+ 
+ 
  
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div
@@ -263,11 +249,9 @@ const CsvUploader = () => {
           </center>
         </div>
  
-       
- 
-        <Modal show={showModal} onHide={handleCloseModal} size="xl" centered>
+  <Modal show={showModal} onHide={handleCloseModal} size="xl" centered>
   <Modal.Header closeButton>
-    <Modal.Title>Data Preview</Modal.Title>
+  <Modal.Title>Data Preview</Modal.Title>
   </Modal.Header>
   <Modal.Body>
     <p style={{ fontWeight: 'bold', fontSize: '1.2em' }} >Batch ID: {showModalData.batchId}</p>
@@ -276,7 +260,6 @@ const CsvUploader = () => {
         <table className="table table-bordered table-striped">
           <thead>
             <tr>
-              {/* Add table headers based on your CSV columns */}
               <th>Entity Name</th>
               <th>Description</th>
               <th>Feature Name</th>
@@ -285,7 +268,6 @@ const CsvUploader = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Split the content by newline and display each row as a table row */}
             {showModalData.content.split('\n').map((row, index) => (
               <tr key={index}>
                 {row.split('-').map((column, colIndex) => (
@@ -304,14 +286,8 @@ const CsvUploader = () => {
     </Button>
   </Modal.Footer>
 </Modal>
- 
-       
- 
- 
-       
-      </div>
+</div>
     </>
   );
 };
- 
 export default CsvUploader;

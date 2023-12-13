@@ -113,7 +113,7 @@ export default function Header() {
             
             {featureFlags.addFeature?(
                 <Link to="/featurehome/AddFeature" style={{ textDecoration: 'none' }}>
-                  <Nav.Item id='navlinks'>Add Feature</Nav.Item>
+                  <Nav.Item id='navlinks'>Add Features</Nav.Item>
                 </Link>
               ):(
                 <p></p>
@@ -121,7 +121,7 @@ export default function Header() {
                 
               {featureFlags.uploadFeature?( 
                 <Link to="/featurehome/CsvUploader" style={{ textDecoration: 'none' }}>
-                <Nav.Item id='navlinks'>Upload Feature</Nav.Item>
+                <Nav.Item id='navlinks'>Upload Features</Nav.Item>
                 </Link>
                   ):(
                   <p></p>
@@ -139,7 +139,7 @@ export default function Header() {
             
              {featureFlags.myFeature?(
               <Link to="/featurehome/UserFeatures" style={{ textDecoration: 'none' }}>
-                <Nav.Item id='navlinks'>My Feature</Nav.Item>
+                <Nav.Item id='navlinks'>My Features</Nav.Item>
                 </Link>       
                    ):(
                   <p></p>

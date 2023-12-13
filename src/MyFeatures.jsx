@@ -31,6 +31,8 @@ export default function MyFeatures() {
 
     return (
         <div className='table-container'>
+            <br />
+            <h1>All Features</h1>
             <table className='custom-table'>
                 <thead>
                     <tr>

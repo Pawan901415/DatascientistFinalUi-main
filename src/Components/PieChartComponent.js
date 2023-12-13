@@ -6,8 +6,7 @@ const PieChartComponent = () => {
   const [chartData, setChartData] = useState(null);
   const storedUserObject = JSON.parse(sessionStorage.getItem('UserObj'));
   const userId = storedUserObject.name;
-
-  // eslint-disable-next-line
+  
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`https://chartonlineapi.azurewebsites.net/api/Common/UserId?userid=${userId}`);
@@ -118,11 +117,12 @@ const PieChartComponent = () => {
   }, [chartData, chartRef]);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '20px' }}>
+      <h2>My Entity Chart</h2>
       <div style={{ position: 'relative', maxWidth: '400px', width: '70%', textAlign: 'center' }}>
         {data && data.length > 0 ? (
           <div>
-            <h2>My Entity Chart</h2>
+            
             <div style={{ position: 'relative', width: '100%', height: '300px' }}>
               <canvas ref={chartRef}></canvas>
             </div>

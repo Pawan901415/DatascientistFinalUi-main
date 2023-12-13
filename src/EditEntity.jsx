@@ -4,7 +4,10 @@ import './Styles/FeatureHome.css';
 import './Styles/ViewEntity.css';
 import './Styles/EditEntityStyles.css';
 import React, { useState, useEffect} from 'react';
- 
+import DeleteConfirmationModal from './Components/DeleteConfirmationModal'; 
+import SaveSuccessModal from './Components/SaveSuccessModal';
+import './Styles/SaveSuccessModal.css';
+
 export default function EditEntity(props) {
   const { id } = useParams(); // Access the 'id' parameter
   const navigate = useNavigate();
@@ -13,7 +16,9 @@ export default function EditEntity(props) {
   const [features, setFeatures] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editedEntity, setEditedEntity] = useState({ entityName: '', description: '' });
- 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSaveSuccessModal, setShowSaveSuccessModal] = useState(false);
+
   useEffect(() => {
     // Fetch entity details
     axios.get(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/GetEntityByEntityName/${id}`)
@@ -46,29 +51,75 @@ export default function EditEntity(props) {
     setEditMode(true);
   };
  
+  // const handleSave = () => {
+    
+  //   axios.put(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/UpdateEntity/${entityDetails.entityName}`, editedEntity)
+  //     .then(resp => {
+  //       setEntityDetails(resp.data);
+  //       setEditMode(false);
+  //     })
+  //     .catch(err => {
+  //       console.error('API Error:', err);
+  //     });
+  // };
   const handleSave = () => {
     // Save changes using the update API
     axios.put(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/UpdateEntity/${entityDetails.entityName}`, editedEntity)
       .then(resp => {
         setEntityDetails(resp.data);
         setEditMode(false);
+        // Show the success modal
+        setShowSaveSuccessModal(true);
       })
       .catch(err => {
         console.error('API Error:', err);
       });
   };
  
+  // const handleDelete = () => {
+    
+  //   axios.delete(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/DeleteEntity/${entityDetails.entityName}`)
+  //     .then(() => {
+        
+  //       navigate('/featurehome/UserFeatures'); 
+  //     })
+  //     .catch(err => {
+  //       console.error('API Error:', err);
+  //     });
+  // };
+
+  const handleCancelSaveSuccess = () => {
+    // Hide the success modal
+    setShowSaveSuccessModal(false);
+  };
+
   const handleDelete = () => {
+    // Show the delete confirmation modal
+    setShowDeleteModal(true);
+  };
+
+  const handleCancelDelete = () => {
+    // Hide the delete confirmation modal
+    setShowDeleteModal(false);
+  };
+
+  const handleConfirmDelete = () => {
     // Delete entity using the delete API
     axios.delete(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/DeleteEntity/${entityDetails.entityName}`)
       .then(() => {
-        // Redirect to a different page or perform any other action after successful deletion
-        navigate('/'); // Redirect to the home page, for example
+        // Redirect or perform any other action after successful deletion
+        navigate('/featurehome/UserFeatures');
       })
       .catch(err => {
         console.error('API Error:', err);
+      })
+      .finally(() => {
+        // Hide the delete confirmation modal after deletion
+        setShowDeleteModal(false);
       });
   };
+
+
  
   let maptitle = (
 <div className="entity-containerr">
@@ -136,6 +187,18 @@ export default function EditEntity(props) {
             </div>
           </div>
         </div>
+
+        <SaveSuccessModal
+        show={showSaveSuccessModal}
+        onClose={handleCancelSaveSuccess}
+      />
+      
+        <DeleteConfirmationModal
+        show={showDeleteModal}
+        onCancel={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+      />
+
       </div>
     </>
   );
