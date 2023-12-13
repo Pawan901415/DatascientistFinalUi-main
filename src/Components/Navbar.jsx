@@ -65,7 +65,7 @@ const Navbar = () => {
           </Button>
           <Button
             component={Link}
-            to={"/"}
+            to={"https://adminstorefeaturemesh.azurewebsites.net/AdminM/log"}
             variant="outlined"
             sx={{
               px: 2,

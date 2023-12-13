@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import home from "./home.svg"
-
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import "./Styles/Header.css";
 import {AppConfigurationClient} from "@azure/app-configuration";
@@ -68,16 +68,11 @@ export default function Header() {
   }, []);
  
   
-
-    
-   
-
-
   const [searchResults, setSearchResults] = useState([]);  
   const [searchTerm, setSearchTerm] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false); // New state
   const navigate = useNavigate();
-
+  const location = useLocation();
   
   async function SearchAPI() {
     const response = await axios.get(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/GetEntityByEntityName/${searchTerm}`);
@@ -91,6 +86,8 @@ export default function Header() {
   function HandleInputChange(event) {
     setSearchTerm(event.target.value);
   }
+
+  
 
   // const renderSearchResult = ((searchResults.length > 0 ) && (<SearchResult data={searchResults} />));
 
@@ -183,9 +180,13 @@ export default function Header() {
           </Container>
         </Navbar>
 
-      
+        {location.pathname.includes('/featurehome/searchresult') && showSearchResults && (
+        <div className="search-results-container">
+          <SearchResult data={searchResults} />
+        </div>
+      )}
     
-        {showSearchResults > 0 && <SearchResult data={searchResults}/>}
+        {/* {showSearchResults > 0 && <SearchResult data={searchResults}/>} */}
         
         {/* <SearchResult data={searchResults}  recentSearches={recentSearches}/> */}
       </>

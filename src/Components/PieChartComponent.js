@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 const PieChartComponent = () => {
   const chartRef = useRef(null);
@@ -7,7 +7,8 @@ const PieChartComponent = () => {
   const storedUserObject = JSON.parse(sessionStorage.getItem('UserObj'));
   const userId = storedUserObject.name;
 
-  const fetchData = async () => {
+  // eslint-disable-next-line
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`https://chartonlineapi.azurewebsites.net/api/Common/UserId?userid=${userId}`);
 
@@ -27,9 +28,9 @@ const PieChartComponent = () => {
     } catch (error) {
       console.error('Error fetching data:', error.message);
     }
-  };
+  }, [userId]);
 
-  const updateChartData = () => {
+  const updateChartData = useCallback(() => {
     if (data) {
       const uniqueEntities = [...new Set(data.map(item => item.entityName))];
       const colors = getRandomColors(uniqueEntities.length);
@@ -49,7 +50,7 @@ const PieChartComponent = () => {
         }],
       });
     }
-  };
+  }, [data]);
 
   const getRandomColors = (count) => {
     const colors = [];

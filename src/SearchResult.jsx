@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import './Styles/SearchResult.css'; 
+import { Link } from 'react-router-dom';
 import heartEmpty from './Images/Heart_icon_red_hollow.svg.png'; 
 import heartFilled from './Images/A_perfect_SVG_heart.svg.png';
 
@@ -37,9 +38,12 @@ export default function SearchResult(props) {
                                 className={`heart-icon ${isFavorite ? 'red' : ''}`}
                             />
                         </button>
-                        <a href={`/ViewEntity/${temp[1].entityName}`} className="explore-btn">
+                        {/* <a href={`/featurehome/ViewEntity/${temp[1].entityName}`} className="explore-btn">
                         Explore
-                        </a>
+                        </a> */}
+                        <Link to={`/featurehome/viewentity/${temp[1].entityName}`} className="explore-btn">
+                                        Explore
+                        </Link>
                     </div>
                 </div>
             </>

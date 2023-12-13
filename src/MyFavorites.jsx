@@ -33,7 +33,7 @@ export default function MyFavorites() {
                                     <p className="text-muted mb-0">{favorite.description}</p>
                                 </div>
                                 <div className="d-flex">
-                                    <Link to={`/viewentity/${favorite.entityName}`} className="btn btn-primary btn-sm me-2">
+                                    <Link to={`/featurehome/viewentity/${favorite.entityName}`} className="btn btn-primary btn-sm me-2">
                                         Explore
                                     </Link>
                                     <button className="btn btn-danger btn-sm" onClick={() => removeFavorite(index)}>
@@ -48,6 +48,9 @@ export default function MyFavorites() {
                 <p className="text-center">No favorites added yet.</p>
             )}
         </div>
+        <br/>
+        <br/>
+        <br/>
         </>
     );
 }

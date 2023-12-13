@@ -30,7 +30,7 @@ const FeatureHome = () => {
         <Route path="userfeatures" element={<UserFeatures />} />
         <Route path="viewentity/:id" element={<ViewEntity />} />
         <Route path="editentity/:id" element={<EditEntity />} />
-        <Route path="editfeature/:id" element={<EditFeature />} />
+        <Route path="editfeature/:FeatureName" element={<EditFeature />} />
         <Route path='MyFavorites' element={<MyFavorites />} />
         <Route path="*" element={<FeatureHomeDefault></FeatureHomeDefault>}></Route>
 

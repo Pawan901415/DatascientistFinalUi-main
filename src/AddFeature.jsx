@@ -1,6 +1,4 @@
 import axios from 'axios';
-import Footer from './Components/Footer';
-
 import React, { useState } from 'react'
 // import { Link, useNavigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
@@ -197,8 +195,6 @@ export default function AddFeature(props) {
   </div>
 </div>
 <br/>
-<br/>
-<Footer></Footer>
 <br/>
 <br/>
 

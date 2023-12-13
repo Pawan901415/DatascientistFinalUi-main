@@ -104,12 +104,12 @@ const CsvUploader = () => {
        
         console.log(`File ${i + 1} uploaded successfully:`, response.data);
  
-        //const newBatchId = batchId + i;
+       // const newBatchId = batchId + i;
  
         setUploadedData((prevData) => [
           ...prevData,
           {
-           // batchId: newBatchId,
+           //batchId: newBatchId,
             timestamp,
             content: response.data
               .map(

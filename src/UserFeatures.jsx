@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MyEntities from './MyEntities';
+import { useNavigate } from 'react-router-dom';
 import PieChartComponent from './Components/PieChartComponent';
 
 export default function UserFeatures() {
@@ -9,6 +10,8 @@ export default function UserFeatures() {
 
     const storedUserObject = JSON.parse(sessionStorage.getItem('UserObj'));
     const username = storedUserObject.name;
+    let Navigate = useNavigate();
+
     useEffect(() => {
         axios.get(`https://featuremarketplacewebapi.azurewebsites.net/api/Feature/GetFeaturesByUserName/${username}`)
             .then(resp => {
@@ -33,8 +36,9 @@ export default function UserFeatures() {
                 .then(() => {
                     // Remove the deleted feature from the state
                     setFeatures(prevFeatures => prevFeatures.filter(feature => feature.id !== featureId));
-                    window.location.reload();
+                    // window.location.reload();
                     alert("Feature deleted successfully");
+                    Navigate('/featurehome/UserFeatures');
 
                     
                 })
@@ -53,7 +57,17 @@ export default function UserFeatures() {
             <td className="text-nowrap text-center ">{p.featureDataType}</td>
             <td className="text-nowrap text-center ">{p.createdAt}</td>
             <td className="text-nowrap text-center ">
-                <Link className='btn btn-primary' to={`/featurehome/editfeature/${p.entityName}`}>Edit</Link>
+                {/* <Link className='btn btn-primary' to={`/featurehome/editfeature/${p.entityName}`}>Edit</Link> */}
+
+                <Link
+                    className='btn btn-primary'
+                    to={{
+                        pathname: `/featurehome/editfeature/${p.featureName}`,
+                        state: { featureDetails: p }
+                    }}
+                >
+                    Edit
+                </Link>
             </td>
             <td className="text-nowrap text-center ">
                 <button
