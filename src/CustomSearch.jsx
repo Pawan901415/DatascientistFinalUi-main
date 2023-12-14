@@ -8,7 +8,7 @@ const CustomSearch = () => {
   const [recentSearches, setRecentSearches] = useState([]);
  
   useEffect(() => {
-    // Load recent searches from local storage
+    
     const storedRecentSearches = localStorage.getItem('recentSearches');
     if (storedRecentSearches) {
       setRecentSearches(JSON.parse(storedRecentSearches));
@@ -25,10 +25,10 @@ const CustomSearch = () => {
       // Update the state with the fetched search results
       setSearchResults(data);
  
-      // Update recent searches in local storage
+      
       const updatedRecentSearches = [
         { selectedValue, searchQuery },
-        ...recentSearches.slice(0, 4) // Keep only the last 4 searches
+        ...recentSearches.slice(0, 4) 
       ];
       setRecentSearches(updatedRecentSearches);
       localStorage.setItem('recentSearches', JSON.stringify(updatedRecentSearches));

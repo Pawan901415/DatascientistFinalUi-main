@@ -9,7 +9,7 @@ import SaveSuccessModal from './Components/SaveSuccessModal';
 import './Styles/SaveSuccessModal.css';
 
 export default function EditEntity(props) {
-  const { id } = useParams(); // Access the 'id' parameter
+  const { id } = useParams(); 
   const navigate = useNavigate();
  
   const [entityDetails, setEntityDetails] = useState({});
@@ -51,17 +51,7 @@ export default function EditEntity(props) {
     setEditMode(true);
   };
  
-  // const handleSave = () => {
-    
-  //   axios.put(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/UpdateEntity/${entityDetails.entityName}`, editedEntity)
-  //     .then(resp => {
-  //       setEntityDetails(resp.data);
-  //       setEditMode(false);
-  //     })
-  //     .catch(err => {
-  //       console.error('API Error:', err);
-  //     });
-  // };
+  
   const handleSave = () => {
     // Save changes using the update API
     axios.put(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/UpdateEntity/${entityDetails.entityName}`, editedEntity)
@@ -76,17 +66,7 @@ export default function EditEntity(props) {
       });
   };
  
-  // const handleDelete = () => {
-    
-  //   axios.delete(`https://featuremarketplacewebapi.azurewebsites.net/api/Entity/DeleteEntity/${entityDetails.entityName}`)
-  //     .then(() => {
-        
-  //       navigate('/featurehome/UserFeatures'); 
-  //     })
-  //     .catch(err => {
-  //       console.error('API Error:', err);
-  //     });
-  // };
+
 
   const handleCancelSaveSuccess = () => {
     // Hide the success modal
@@ -125,11 +105,7 @@ export default function EditEntity(props) {
 <div className="entity-containerr">
       {editMode ? (
     <div className="edit-modee">
-    {/* <input
-            type="text"
-            value={editedEntity.entityName}
-            onChange={(e) => setEditedEntity({ ...editedEntity, entityName: e.target.value })}
-          /> */}
+   
       <h3 className="edit-entity-namee">{editedEntity.entityName}</h3>
           <input
             className="edit-descriptionn"
@@ -138,7 +114,6 @@ export default function EditEntity(props) {
             onChange={(e) => setEditedEntity({ ...editedEntity, description: e.target.value })}
           />
           <button className='save-buttonn' onClick={handleSave}>Save</button>
-          {/* <button onClick={handleDelete}>Delete</button> */}
         </div>
       ) : (
         <div className="view-modee">
@@ -192,7 +167,7 @@ export default function EditEntity(props) {
         show={showSaveSuccessModal}
         onClose={handleCancelSaveSuccess}
       />
-      
+
         <DeleteConfirmationModal
         show={showDeleteModal}
         onCancel={handleCancelDelete}

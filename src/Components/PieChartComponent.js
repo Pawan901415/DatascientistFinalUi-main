@@ -6,7 +6,7 @@ const PieChartComponent = () => {
   const [chartData, setChartData] = useState(null);
   const storedUserObject = JSON.parse(sessionStorage.getItem('UserObj'));
   const userId = storedUserObject.name;
-  
+
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`https://chartonlineapi.azurewebsites.net/api/Common/UserId?userid=${userId}`);
@@ -59,77 +59,104 @@ const PieChartComponent = () => {
     return colors;
   };
 
-  useEffect(() => {
-    const loadChartJsScript = () => {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-      script.async = true;
-      document.head.appendChild(script);
+  const drawPieChart = useCallback(async () => {
+    if (chartRef.current && data && chartData) {
+      const ctx = chartRef.current.getContext('2d');
+      ctx.clearRect(0, 0, chartRef.current.width, chartRef.current.height);
 
-      script.onload = () => {
-        fetchData();
-      };
-    };
+      let startAngle = 0;
+      const total = chartData.datasets[0].data.reduce((acc, val) => acc + val, 0);
+      const dataLength = chartData.labels.length;
 
-    if (typeof window.Chart === 'undefined') {
-      loadChartJsScript();
-    } else {
-      fetchData();
+      for (let i = 0; i < dataLength; i++) {
+        const sliceAngle = (2 * Math.PI * chartData.datasets[0].data[i]) / total;
+
+        ctx.fillStyle = chartData.datasets[0].backgroundColor[i];
+        ctx.strokeStyle = 'orange'; // Set the stroke color
+        ctx.lineWidth = 0.6; // Set the stroke width
+
+        ctx.beginPath();
+        ctx.moveTo(chartRef.current.width / 2, chartRef.current.height / 2);
+        ctx.arc(
+          chartRef.current.width / 2,
+          chartRef.current.height / 2,
+          Math.min(chartRef.current.width / 2, chartRef.current.height / 2),
+          startAngle,
+          startAngle + sliceAngle
+        );
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke(); // Draw the stroke
+
+        startAngle += sliceAngle;
+      }
     }
-  }, [userId, fetchData]);
+  }, [chartData, data]);
+
+  useEffect(() => {
+    const fetchDataInterval = setInterval(() => {
+      fetchData();
+    }, 2000); // Fetch data every 2 seconds
+
+    return () => {
+      clearInterval(fetchDataInterval);
+    };
+  }, [fetchData]); // Added fetchData to dependency array
 
   useEffect(() => {
     updateChartData();
-  }, [data, updateChartData]);
+  }, [data, updateChartData]); // Updated dependency array
 
   useEffect(() => {
-    if (chartRef.current && window.Chart && chartData) {
-      if (window.myPieChart) {
-        window.myPieChart.destroy();
-      }
-
-      const ctx = chartRef.current.getContext('2d');
-      window.myPieChart = new window.Chart(ctx, {
-        type: 'pie',
-        data: chartData,
-        options: {
-          responsive: true,
-          title: {
-            display: true,
-            text: 'Pie Chart',
-            position: 'right',
-          },
-          legend: {
-            display: false,
-          },
-          tooltips: {
-            enabled: false,
-          },
-        },
-      });
-
-      const chartContainer = chartRef.current.parentElement;
-      chartRef.current.width = chartContainer.offsetWidth;
-      chartRef.current.height = chartContainer.offsetHeight;
-
-      window.myPieChart.resize();
+    if (chartRef.current && chartData) {
+      drawPieChart();
     }
-  }, [chartData, chartRef]);
+  }, [chartData, drawPieChart]); // Updated dependency array
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '20px' }}>
-      <h2>My Entity Chart</h2>
-      <div style={{ position: 'relative', maxWidth: '400px', width: '70%', textAlign: 'center' }}>
-        {data && data.length > 0 ? (
-          <div>
-            
-            <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-              <canvas ref={chartRef}></canvas>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '10px' }}>
+      <h2>MY ENTITY CHART</h2>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginTop: '20px' }}>
+        <div style={{ maxWidth: '500px', textAlign: 'left', marginRight: '20px' }}>
+          {chartData && chartData.labels && chartData.datasets && (
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              {chartData.labels.map((label, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '6px',
+                    marginRight: '20px',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '50px',
+                      height: '10px',
+                      backgroundColor: chartData.datasets[0].backgroundColor[index],
+                      marginRight: '20px',
+                      border: '1px solid orange', // Orange border around the color box
+                      padding: '1px', // Optional: Add padding for better appearance
+                    }}
+                  ></div>
+                  <span>{label}</span>
+                </div>
+              ))}
             </div>
-          </div>
-        ) : (
-          <p>Add Data to see Entity Chart</p>
-        )}
+          )}
+        </div>
+        <div style={{ flex: '1', textAlign: 'center' }}>
+          {data && data.length > 0 ? (
+            <div>
+              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                <canvas ref={chartRef} style={{ width: '100%', height: '70%' }}></canvas>
+              </div>
+            </div>
+          ) : (
+            <p>Add Data to see Entity Chart</p>
+          )}
+        </div>
       </div>
     </div>
   );

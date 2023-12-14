@@ -11,13 +11,11 @@ export default function FeatureHomeDefault() {
     <>
     <div className="">
         <EntityGrid></EntityGrid>
-        {/* <PieChartComponent></PieChartComponent> */}
         <BarChart></BarChart>
         <div className="">
           <MyFeatures></MyFeatures>
         </div>
       </div>
-      <br></br>
       <ChatbotButton />
     </>
   )

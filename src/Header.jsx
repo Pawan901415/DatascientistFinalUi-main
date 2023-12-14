@@ -6,17 +6,13 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import "./Styles/Header.css";
 import {AppConfigurationClient} from "@azure/app-configuration";
-
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-
 import SearchResult from './SearchResult';
 import LogoutButton from './Login/LogoutButton';
-
-
 
 
 const configService = new AppConfigurationClient("Endpoint=https://featureflagg.azconfig.io;Id=ZRhl;Secret=DQYToBUHpPfxFayGC/ZB7P9OvQE+qf77h6Uoe35CuPg=");
@@ -70,7 +66,7 @@ export default function Header() {
   
   const [searchResults, setSearchResults] = useState([]);  
   const [searchTerm, setSearchTerm] = useState('');
-  const [showSearchResults, setShowSearchResults] = useState(false); // New state
+  const [showSearchResults, setShowSearchResults] = useState(false); 
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -79,7 +75,7 @@ export default function Header() {
     setSearchResults(response.data);
     console.log(response.data);
     navigate('/featurehome/searchresult');
-    setShowSearchResults(true); // Update state to show search results
+    setShowSearchResults(true); 
 
   }
 
@@ -87,9 +83,6 @@ export default function Header() {
     setSearchTerm(event.target.value);
   }
 
-  
-
-  // const renderSearchResult = ((searchResults.length > 0 ) && (<SearchResult data={searchResults} />));
 
   return (
     
@@ -186,9 +179,7 @@ export default function Header() {
         </div>
       )}
     
-        {/* {showSearchResults > 0 && <SearchResult data={searchResults}/>} */}
-        
-        {/* <SearchResult data={searchResults}  recentSearches={recentSearches}/> */}
+
       </>
       
     

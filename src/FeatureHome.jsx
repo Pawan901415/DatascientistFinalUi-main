@@ -12,31 +12,45 @@ import ViewEntity from './ViewEntity';
 import EditEntity from './EditEntity';
 import EditFeature from './EditFeature';
 import Header from './Header';
-//import { Switch } from '@mui/material';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet , useLocation} from 'react-router-dom';
 import FeatureHomeDefault from './FeatureHomeDefault';
+import ChatbotEmbed from './Components/ChatbotEmbed';
+import { useEffect } from 'react';
+
+function ScrollToTopOnNavigate() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 const FeatureHome = () => {
-  console.log("Rendering FeatureHome component");
+  
   return (
-    <>
-      <Header></Header>   
-      <Routes>
-        <Route path="Addfeature" element={<AddFeature />} />
-        <Route path="CsvUploader" element={<CsvUploader />} />
-        <Route path="customsearch" element={<CustomSearch />} />
-        <Route path="searchresult" element={<SearchResult />} />
-        <Route path="userfeatures" element={<UserFeatures />} />
-        <Route path="viewentity/:id" element={<ViewEntity />} />
-        <Route path="editentity/:id" element={<EditEntity />} />
-        <Route path="editfeature/:FeatureName" element={<EditFeature />} />
-        <Route path='MyFavorites' element={<MyFavorites />} />
-        <Route path="*" element={<FeatureHomeDefault></FeatureHomeDefault>}></Route>
-
-      </Routes>
-      <Outlet></Outlet>
-      <Footer></Footer>
-    </>
+    
+        <>
+        <ScrollToTopOnNavigate />
+          <Header></Header>
+          <Routes>
+            <Route path="Addfeature" element={<AddFeature />} />
+            <Route path="CsvUploader" element={<CsvUploader />} />
+            <Route path="customsearch" element={<CustomSearch />} />
+            <Route path="searchresult" element={<SearchResult />} />
+            <Route path="userfeatures" element={<UserFeatures />} />
+            <Route path="viewentity/:id" element={<ViewEntity />} />
+            <Route path="editentity/:id" element={<EditEntity />} />
+            <Route path="editfeature/:FeatureName" element={<EditFeature />} />
+            <Route path='MyFavorites' element={<MyFavorites />} />
+            <Route path='chatbot' element={<ChatbotEmbed />} />
+            <Route path="*" element={<FeatureHomeDefault></FeatureHomeDefault>}></Route>
+          </Routes>
+          <Outlet></Outlet>
+          <Footer></Footer>
+        </>
+      
   );
 };
 

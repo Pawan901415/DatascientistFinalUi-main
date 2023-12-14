@@ -5,7 +5,7 @@ import './Styles/ViewEntity.css';
 import React, { useState, useEffect } from 'react';
 
 export default function ViewEntity(props) {
-  const { id } = useParams(); // Access the 'id' parameter
+  const { id } = useParams(); 
 
   const [entityDetails, setEntityDetails] = useState({});
   const [features, setFeatures] = useState([]);
@@ -39,7 +39,7 @@ export default function ViewEntity(props) {
   let maptitle = (
     <div>
       <h2>{entityDetails.entityName}</h2>
-      <p>{entityDetails.description}</p>
+      <p style={{marginLeft:'15px'}}>{entityDetails.description}</p>
     </div>
   );
 

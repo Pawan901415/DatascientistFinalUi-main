@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 import "./Styles/MyFeaturesStyles.css";
 
 const EditFeature = () => {
@@ -19,7 +19,7 @@ const EditFeature = () => {
         userName: '',
         entityName: ''
     });
-    const [showModal, setShowModal] = useState(false); // State to manage the modal
+    const [showModal, setShowModal] = useState(false); 
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -40,7 +40,7 @@ const EditFeature = () => {
         axios.put(`https://featuremarketplacewebapi.azurewebsites.net/api/Feature/UpdateFeature/${featureData.featureId}`, featureData)
             .then(resp => {
                 console.log('Feature updated successfully', resp.data);
-                setShowModal(true); // Open the modal on successful update
+                setShowModal(true); 
             })
             .catch(err => {
                 console.error('Error updating feature', err);
@@ -48,12 +48,12 @@ const EditFeature = () => {
     };
 
     const handleCloseModal = () => {
-        setShowModal(false); // Close the modal
+        setShowModal(false); 
     };
 
     return (
         <div className="container mt-4">
-            <h2 className="text-left">Edit Feature</h2>
+            <h2 style={{marginLeft:'-7px'}}>Edit Feature</h2>
             <div className="row">
                 <div className="col-md-6" style={{ marginLeft: 0, textAlign: "left" }}>
                     <div className="form-group">

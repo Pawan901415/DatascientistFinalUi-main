@@ -1,19 +1,12 @@
-/* Add this CSS in your component's stylesheet or a global stylesheet */
- 
+
 .entity-containerr {
     display: flex;
     flex-direction: column;
     max-width: 1300px;
     margin: 20px;
-    /* border: 1px solid #ddd; */
     padding: 20px;
     border-radius: 8px;
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   }
-   
-  /* .edit-modee {
-     Add styles specific to the edit mode
-  } */
    
   .edit-entity-namee {
     font-size: 1.5em;
@@ -44,20 +37,15 @@
     background-color: #0056b3;
   }
    
-  /* .view-modee {
-  } */
-   
+
   .entity-namee {
     font-size: 1.5em;
     margin-left: 0px;
   }
    
-  /* .entity-descriptionn {
-  } */
    
   .edit-iconn {
     cursor: pointer;
-    /* Add styles for the edit icon */
   }
    
   .delete-buttonn {

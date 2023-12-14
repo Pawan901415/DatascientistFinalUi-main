@@ -30,10 +30,11 @@
 .search-button {
   padding: 7px;
   margin-top: -10px;
-  background-color: #4caf50;
+  background-color: #6c757d;
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 5px;
   margin-left: 1px;
 }
 
@@ -45,11 +46,10 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
-  border: 1px solid #ddd; /* Add border to the search-results-container */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
-  border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+  border: 1px solid #ddd; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 5px; 
 }
-
 
 
 .search-results-table tbody tr:nth-child(even) {
@@ -73,13 +73,10 @@ td {
   right: -240px;
   margin: 10px;
   padding: 10px;
-  /* border: 1px solid #ddd;  */
-  /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  */
   border-radius: 5px; 
 }
 
 .recent-searches-container h4 {
-  /* font-weight: bold; */
   margin-bottom: 10px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
   padding: 10px; 
@@ -105,7 +102,7 @@ td {
   text-decoration: underline;
 }
 
-/* Apply responsive styles for smaller screens */
+
 @media only screen and (max-width: 600px) {
   .search-bar-container {
     flex-direction: column;

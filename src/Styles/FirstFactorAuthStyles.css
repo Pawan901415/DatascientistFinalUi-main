@@ -95,21 +95,6 @@
     align-items: center;
     justify-content: center;
  }
-
- /* .custom-container {
-	display: flex;
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-  }
-  
-  .custom-row {
-	display: flex;
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-  } */
-  
  
  .btn.signin {
 	border: 1px solid transparent;

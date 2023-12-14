@@ -90,7 +90,6 @@ const BarChart = () => {
             },
             y: {
               beginAtZero: true,
-              max: Math.max(...entityCounts) + 1, // Adjust the maximum value for better visualization
             },
           },
           responsive: true,
@@ -105,7 +104,7 @@ const BarChart = () => {
         <p>Loading...</p>
       ) : data && entityNames.length > 0 ? (
         <div>
-         <h1>All Entities</h1>
+         <h1 style={{marginLeft:'20px'}}>All Entities</h1>
           <canvas ref={chartRef}   style={{ maxWidth: '80%',marginLeft: '140px',marginTop:'120px',height :'100px',width:'100px' }}></canvas>
         </div>
       ) : (
