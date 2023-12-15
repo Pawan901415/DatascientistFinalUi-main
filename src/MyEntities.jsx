@@ -62,9 +62,6 @@ const MyEntities = () => {
     <section>
       <div className="entity-container">
         <h1>My Entities</h1>
-        {entities.size === 0 ? (
-          <p>Loading entities...</p>
-        ) : (
           <div>
             <div className="entitycards">
               {currentEntities.map((card, i) => (
@@ -102,7 +99,7 @@ const MyEntities = () => {
               </li>
             </ul>
           </div>
-        )}
+        
       </div>
     </section>
   </div>

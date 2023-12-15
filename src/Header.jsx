@@ -15,7 +15,7 @@ import SearchResult from './SearchResult';
 import LogoutButton from './Login/LogoutButton';
 
 
-const configService = new AppConfigurationClient("Endpoint=https://featureflagg.azconfig.io;Id=ZRhl;Secret=DQYToBUHpPfxFayGC/ZB7P9OvQE+qf77h6Uoe35CuPg=");
+const configService = new AppConfigurationClient("Endpoint=https://featureflagsss.azconfig.io;Id=yU6W;Secret=xRxSmIN7JEHCSfOtQXgHNlK3Z92X3ckK+60p6kOHmLY=");
 
   
 export default function Header() {
