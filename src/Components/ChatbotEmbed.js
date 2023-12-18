@@ -5,7 +5,7 @@ const ChatbotEmbed = () => {
 <div>
 <iframe
         title="Chatbot"
-        src="https://nice-sky-08aa0150f.4.azurestaticapps.net/"  // Replace with your actual chatbot URL
+        src="https://victorious-ocean-0f5d4ab10.4.azurestaticapps.net/"  // Replace with your actual chatbot URL
         width= "100%"
         height="600"
         

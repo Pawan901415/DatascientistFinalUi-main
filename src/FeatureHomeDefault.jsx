@@ -2,7 +2,7 @@ import React from 'react'
 import EntityGrid from './Components/EntityGrid';
 import MyFeatures from './MyFeatures';
 import ChatbotButton from './Components/ChatbotButton';
-import BarChart from './Components/BarChart';
+// import BarChart from './Components/BarChart';
 
 
 
@@ -11,7 +11,7 @@ export default function FeatureHomeDefault() {
     <>
     <div className="">
         <EntityGrid></EntityGrid>
-        <BarChart></BarChart>
+        {/* <BarChart></BarChart> */}
         <div className="">
           <MyFeatures></MyFeatures>
         </div>
