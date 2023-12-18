@@ -10,9 +10,8 @@ const SecondFactorAuth = ({ username, onSuccess }) => {
   const handleSecondFactorAuth = async () => {
     try {
       const response = await axios.post(
-        //"https://usermanagementapiteam4.azurewebsites.net/api/Authentication/Login-2FA",
-        // "https://usermanagementapi-team4.azurewebsites.net/api/Authentication/login-2FA",
-        "https://usermanagementfeaturemeshapiapi.azurewebsites.net/api/Authentication/login-2FA",
+        
+        "https://usermanagemenfeaturemarketplaceapi.azurewebsites.net/api/Authentication/login-2FA",
         { username: username, code: otp },
         {
           headers: {
