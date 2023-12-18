@@ -1,17 +1,16 @@
+// signalrService.js
+ 
 import { HubConnectionBuilder } from '@microsoft/signalr';
  
 class SignalRService {
   constructor() {
+   
     this.connection = new HubConnectionBuilder()
-      .withUrl('https://csvbatchprocessing20231213121617.azurewebsites.net/progressHub') // Replace with your SignalR hub URL
+      .withUrl('https://csvbatchprocessing20231215182142.azurewebsites.net/progressHub')
       .withAutomaticReconnect()//
       .build();
  
-     
- 
-    this.startConnection();//http://localhost:5040/progressHub
- 
-   
+    this.startConnection();
   }
  
   startConnection = async () => {
@@ -28,4 +27,3 @@ class SignalRService {
  
 const signalRService = new SignalRService();
 export default signalRService;
- 
